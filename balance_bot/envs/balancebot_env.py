@@ -1,5 +1,4 @@
 import os
-import logging
 import math
 import numpy as np
 
@@ -9,8 +8,6 @@ from gym.utils import seeding
 
 import pybullet as p
 import pybullet_data
-
-logger = logging.getLogger(__name__)
 
 class BalancebotEnv(gym.Env):
     metadata = {
@@ -105,22 +102,4 @@ class BalancebotEnv(gym.Env):
         return cubePos[2] < 0.15 or self._envStepCounter >= 1500
 
     def _render(self, mode='human', close=False):
-        if mode != "rgb_array":
-          return np.array([])
-        base_pos,orn = self._p.getBasePositionAndOrientation(self.botID)
-        view_matrix = self._p.computeViewMatrixFromYawPitchRoll(
-            cameraTargetPosition=base_pos,
-            distance=self._cam_dist,
-            yaw=self._cam_yaw,
-            pitch=self._cam_pitch,
-            roll=0,
-            upAxisIndex=2)
-        proj_matrix = self._p.computeProjectionMatrixFOV(
-            fov=60, aspect=float(RENDER_WIDTH)/RENDER_HEIGHT,
-            nearVal=0.1, farVal=100.0)
-        (_, _, px, _, _) = self._p.getCameraImage(
-            width=RENDER_WIDTH, height=RENDER_HEIGHT, viewMatrix=view_matrix,
-            projectionMatrix=proj_matrix, renderer=pybullet.ER_BULLET_HARDWARE_OPENGL)
-        rgb_array = np.array(px)
-        rgb_array = rgb_array[:, :, :3]
-        return rgb_array
+        pass
