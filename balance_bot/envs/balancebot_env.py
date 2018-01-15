@@ -15,7 +15,7 @@ class BalancebotEnv(gym.Env):
         'video.frames_per_second' : 50
     }
 
-    def __init__(self, render=True):
+    def __init__(self, render=False):
         self._observation = []
 
         self.action_space = spaces.Discrete(9)
@@ -92,10 +92,7 @@ class BalancebotEnv(gym.Env):
         return [cubeEuler[0],angular[0],self.vt]
 
     def _compute_reward(self):
-        _, cubeOrn = p.getBasePositionAndOrientation(self.botId)
-        cubeEuler = p.getEulerFromQuaternion(cubeOrn)
-        # could also be pi/2 - abs(cubeEuler[0])
-        return (1 - abs(cubeEuler[0])) * 0.1 -  abs(self.vt - self.vd) * 0.01
+        return 0.1 - abs(self.vt - self.vd) * 0.005
 
     def _compute_done(self):
         cubePos, _ = p.getBasePositionAndOrientation(self.botId)
