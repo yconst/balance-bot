@@ -1,7 +1,5 @@
 ### Balance Bot
 
-v0.01
-
 This is an environment for [OpenAI Gym](https://github.com/openai/gym) where the goal is to train a controller for a two-wheeled balancing robot. The aim is to stay upright as long as possible, and maintain desired speed (by default zero, ie stationary).
 
 To install this environment:
