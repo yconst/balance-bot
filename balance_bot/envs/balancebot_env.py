@@ -17,9 +17,7 @@ class BalancebotEnv(gym.Env):
 
     def __init__(self, render=False):
         self._observation = []
-
         self.action_space = spaces.Discrete(9)
-
         self.observation_space = spaces.Box(np.array([-math.pi, -math.pi, -5]), 
                                             np.array([math.pi, math.pi, 5])) # pitch, gyro, com.sp.
 
@@ -53,6 +51,7 @@ class BalancebotEnv(gym.Env):
         # reset is called once at initialization of simulation
         self.vt = 0
         self.vd = 0
+        self.maxV = 24.6 # 235RPM = 24,609142453 rad/sec
         self._envStepCounter = 0
 
         p.resetSimulation()
@@ -74,8 +73,9 @@ class BalancebotEnv(gym.Env):
     def _assign_throttle(self, action):
         dv = 0.1
         deltav = [-10.*dv,-5.*dv, -2.*dv, -0.1*dv, 0, 0.1*dv, 2.*dv,5.*dv, 10.*dv][action]
-        vt = self.vt + deltav
+        vt = clamp(self.vt + deltav, -self.maxV, self.maxV)
         self.vt = vt
+
         p.setJointMotorControl2(bodyUniqueId=self.botId, 
                                 jointIndex=0, 
                                 controlMode=p.VELOCITY_CONTROL, 
@@ -100,3 +100,6 @@ class BalancebotEnv(gym.Env):
 
     def _render(self, mode='human', close=False):
         pass
+
+def clamp(n, minn, maxn):
+    return max(min(maxn, n), minn)
