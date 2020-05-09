@@ -24,11 +24,10 @@ A basic script for training a Deep-Q agent:
         # model = deepq.models.mlp([16, 12])
         act = deepq.learn(
             env,
-            network=model,
+            network='mlp',
             lr=1e-3,
-            max_timesteps='mlp',
-            total_timesteps=100000,
-            buffer_size = 5000,
+            total_timesteps=200000,
+            buffer_size = 50000,
             exploration_fraction=0.5,
             exploration_final_eps=0.02,
             print_freq=10,
