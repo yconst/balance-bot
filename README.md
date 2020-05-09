@@ -21,14 +21,15 @@ A basic script for training a Deep-Q agent:
 
     def main():
         env = gym.make("balancebot-v0")
-        model = deepq.models.mlp([16, 12])
+        # model = deepq.models.mlp([16, 12])
         act = deepq.learn(
             env,
-            q_func=model,
+            network=model,
             lr=1e-3,
-            max_timesteps=100000,
-            buffer_size=100000,
-            exploration_fraction=0.1,
+            max_timesteps='mlp',
+            total_timesteps=100000,
+            buffer_size = 5000,
+            exploration_fraction=0.5,
             exploration_final_eps=0.02,
             print_freq=10,
             callback=callback
